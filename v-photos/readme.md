@@ -1,1 +1,1 @@
-In this carpet you will found the vehicle photos from diferents angles.
+In this folder you will found the vehicle photos from diferents angles.
