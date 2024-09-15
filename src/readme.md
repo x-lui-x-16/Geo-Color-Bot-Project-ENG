@@ -1,1 +1,1 @@
-On this carpet you will found the arduino code.
+In this folder you will found the arduino code.
