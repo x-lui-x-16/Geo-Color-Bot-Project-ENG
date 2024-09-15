@@ -1,1 +1,1 @@
-This is the carpet where would be all the photos of the electromechanical componentes used.
+In this carpet you will found all the electromechanical components used on this project.
