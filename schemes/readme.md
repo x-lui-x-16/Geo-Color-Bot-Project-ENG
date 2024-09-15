@@ -1,1 +1,1 @@
-In this carpet you will found the schemes of the project.
+In this folder you will found the schemes of the project.
