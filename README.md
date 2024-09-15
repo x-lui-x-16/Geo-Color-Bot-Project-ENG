@@ -17,11 +17,11 @@ All the materials we used for this project.
     - 1 Crazy Wheel
 - ... Protocables
 - Multiple 3D parts that can be found in the following directory.
-[3D files](files3d/)
+[3D files](3dfiles/)
 
 ## Building Instructions
 - 2wd Chassis: https://iesjuanlopezmorillas.es/index.php/departamentos/area-cientifico-tecnologica/tecnologia/blog/102-montaje-chasis-coche-2wd
-- Electronics (Circuit and Battery): [Circuit diagram can be found in the schematics directory](schematics/)
+- Electronics (Circuit and Battery): [Circuit diagram can be found in the schematics directory](schemes/)
 - Code (For the Arduino): [Code can be found in the src directory](src/)
 
 ## Contents
@@ -84,7 +84,7 @@ The components were integrated into the base of the 2WD robot. The color sensor 
 - Project Image:
 [Here are some images of the project for better reference:](v-photos/).
 - Wiring Diagram:
-[Here is how the components are connected:](schematics/)
+[Here is how the components are connected:](schemes/)
 
 Software Development:
 The code was written in C++ using Arduino IDE. We programmed the color sensor to detect RGB values and the ultrasonic sensors to measure distances in all directions. The software logic allows the robot to navigate autonomously and avoid obstacles, ensuring accurate sensing and mobility.
@@ -175,6 +175,7 @@ In summary, the Geo-Color Bot represents a significant step forward toward inclu
 
 ## Electromechanical Components
 
+[Here you will see all the electromechanical components used](electromechanical-components/)
 
 ## Energy Management
 
