@@ -25,7 +25,11 @@ All the materials we used for this project.
 - Code (For the Arduino): [Code can be found in the src directory](src/)
 
 ## Contents
-
+[3D Files](3dfiles/) This folder shows all the 3d files used.
+[Electromechanical Components](electromechanical-components/) In this folder are all the electromechanical components used.
+[Schemes](schemes/) This folder shows all the project schematics. 
+[Code](src/) In this folder you will find the code used.
+[Vehicle Photos](v-photos/) In this folder you will find images of the vehicle from different angles.
 
 ## Introduction
 Below is the development and documentation of the Geo-Color Bot project, an educational robot designed to support learning for people with difficulties such as ADHD or color blindness. The robot uses color detection to associate each color with a specific country, providing relevant information about the country using artificial intelligence.
