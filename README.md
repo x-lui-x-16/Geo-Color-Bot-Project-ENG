@@ -28,9 +28,13 @@ All the materials we used for this project.
 
 ## Contents
 [3D Files](3dfiles/) This folder shows all the 3d files used.
+
 [Electromechanical Components](electromechanical-components/) In this folder are all the electromechanical components used.
+
 [Schemes](schemes/) This folder shows all the project schematics. 
+
 [Code](src/) In this folder you will find the code used.
+
 [Vehicle Photos](v-photos/) In this folder you will find images of the vehicle from different angles.
 
 ## Introduction
