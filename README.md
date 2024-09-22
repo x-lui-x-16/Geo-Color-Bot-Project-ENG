@@ -182,6 +182,24 @@ In summary, the Geo-Color Bot represents a significant step forward toward inclu
 
 ## Code Explanation
 
+### Mobility
+[Mobility Code](src/parts-of-the-code/Mobility.ino)
+
+#### Code Description
+
+This code controls two motors using a dual motor driver (such as the TB6612), assigning Arduino pins to manage the speed and direction of each motor. Below is a detailed explanation of how it is structured:
+
+1. Pin Definition Pins are defined to control the speed (PWM) and direction (AIN1, AIN2, BIN1, BIN2) of motors A and B. Additionally, a pin is assigned to control the motor state (standby).
+2. Variables and Arrays waitTime sets the waiting time between each movement phase. speed defines the initial speed of the motors, which can be modified in the code. The pinMotorA and pinMotorB arrays group the pins of each motor, making their control easier in the functions.
+3. Enumerations for Movement and Turning Enumerations (enum) are used to define possible movement directions (forward, backward) and turning directions (clockwise, counterclockwise), making the code more readable and easier to understand.
+4. setup() Function Here, the output pins are configured to control the motors. The direction and speed pins are prepared to send signals to the motors.
+5. loop() Function This function is the main loop of the program, where the following actions are executed: Activate the motors using the enableMotors() function. Move forward at speed 15. Move backward at speed 15. Turn clockwise at speed 15. Turn counterclockwise at speed 15. Stop the motors using the fullStop() function. Each action is separated by a delay (delay(waitTime)) to observe the behavior of the motors before moving to the next action.
+6. Movement Control Functions move(direction, speed): Moves the motors forward or backward depending on the indicated direction. turn(direction, speed): Turns the vehicle in the indicated direction (clockwise or counterclockwise), moving one motor forward and the other backward.
+7. Auxiliary Functions moveMotorForward(pinMotor, speed): Controls a motor to rotate forward, setting the direction and speed using PWM. moveMotorBackward(pinMotor, speed): Controls a motor to rotate backward. stopMotor(pinMotor): Stops the motor by lowering the speed to 0 and setting both direction pins to LOW. enableMotors() and disableMotors(): Activate or deactivate the motors by controlling the standby pin (pinSTBY).
+
+#### Summary
+
+This code offers basic yet flexible control for a two-motor system, allowing the vehicle to move forward, backward, and perform turns. The functions are organized so that it is easy to modify the speed, direction, and overall behavior of the system, making it ideal for basic mobile robots or Arduino motor control projects.
 
 ## Electromechanical Components
 
