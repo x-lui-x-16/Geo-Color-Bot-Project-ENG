@@ -181,9 +181,714 @@ The design ensures reliability and stability during long-term use, allowing its 
 In summary, the Geo-Color Bot represents a significant step forward toward inclusive education, providing more dynamic and personalized learning for users facing challenges in color perception and attention.
 
 ## Code Explanation
+### Main Code
+[Main Code](src/main/)
+
+This code is designed to drive a robot using several ultrasonic sensors and a TCS3200 color sensor, controlling the motion with the TB6612 motor controller. Below, I explain each part of the code:
+
+#### Pin Definition
+
+// Color Sensor (TCS3200) Pins Definition
+
+#define OUT 2
+
+#define S0 3
+
+#define S1 4
+
+#define S2 5
+
+#define S3 6
+
+#define LED 7
+
+
+The pins for connecting the TCS3200 color sensor are defined. These pins control the configuration of the sensor to read the different color values and activate its LED:
+- OUT is the pin where the sensor pulse is received, which varies depending on the detected color.
+- S0, S1, S2, S3 control the output frequency of the sensor and select which color component (red, green, blue) to measure.
+- LED turns on the sensor's LED light.
+
+
+// US Sensor Pins Definition (HC-SR04)
+
+#define ECHO1 22 // Front sensor
+
+#define TRIG1 23
+
+#define ECHO2 30 // Left Sensor
+
+#define TRIG2 31
+
+#define ECHO3 36 // Right sensor
+
+#define TRIG3 37
+
+#define ECHO4 46 // Rear Sensor
+
+#define TRIG4 47
+
+
+The pins for the ultrasonic sensors (HC-SR04) are defined here. Each sensor has two main pins:
+- TRIG: Pin to send the trigger signal.
+- ECHO: Pin to receive the echo, which allows to calculate the distance.
+
+
+// Controller Pins Definition (TB6612)
+
+#define PWMA 53
+
+#define AIN1 54
+
+#define AIN2 55
+
+#define BIN1 57
+
+#define BIN2 58
+
+#define PWMB 59
+
+#define STBY 70
+
+
+The pins for controlling the TB6612 motor driver are defined. These pins allow to control the direction and speed of the robot motors:
+- PWMA and PWMB control the speed of the motors.
+- AIN1, AIN2, BIN1, BIN2 control the direction of the motors.
+- STBY brings the controller out of standby mode, allowing the motors to run.
+
+
+#### Variables for timing control
+
+const unsigned long printInterval = 5000; // Interval of 5 seconds
+
+unsigned long previousMillis = 0;
+
+
+These variables are used to control the time interval between sensor readings. printInterval defines an interval of 5 seconds, while previousMillis stores the time when the last reading was taken.
+
+#### setup() function
+
+void setup() {
+
+  Serial.begin(9600); // Start Serial communication
+  
+
+Here the serial communication is started at a rate of 9600 baud, which will allow data to be sent to the serial monitor.
+
+##### Color sensor configuration
+
+  pinMode(S0, OUTPUT);
+  
+  pinMode(S1, OUTPUT);
+  
+  pinMode(S2, OUTPUT);
+  
+  pinMode(S3, OUTPUT);
+  
+  pinMode(OUT, INPUT);
+  
+  pinMode(LED, OUTPUT);
+  
+  
+  digitalWrite(S0, HIGH);
+
+  
+  digitalWrite(S1, LOW);
+  
+  digitalWrite(LED, HIGH);
+  
+
+The color sensor pins are configured as inputs or outputs as needed. S0 and S1 control the output frequency, which in this case is set to 100%. The sensor LED lights up to illuminate the area being detected.
+
+##### Ultrasonic sensor configuration
+
+  pinMode(TRIG1, OUTPUT);
+  
+  pinMode(ECHO1, INPUT);
+  
+  pinMode(TRIG2, OUTPUT);
+  
+  pinMode(ECHO2, INPUT);
+  
+  pinMode(TRIG3, OUTPUT);
+  
+  pinMode(ECHO3, INPUT);
+  
+  pinMode(TRIG4, OUTPUT);
+  
+  pinMode(ECHO4, INPUT);
+  
+
+Each ultrasonic sensor has a TRIG pin to send the signal and an ECHO pin to receive the reflected signal. The pins for these sensors are configured here.
+
+##### TB6612 controller configuration
+
+  pinMode(AIN2, OUTPUT);
+  
+  pinMode(AIN1, OUTPUT);
+  
+  pinMode(PWMA, OUTPUT);
+  
+  pinMode(BIN1, OUTPUT);
+  
+  pinMode(BIN2, OUTPUT);
+  
+  pinMode(PWMB, OUTPUT);
+  
+  pinMode(STBY, OUTPUT);
+  
+  digitalWrite(STBY, HIGH);
+  
+
+The motor controller pins are configured as outputs and the controller is brought out of standby mode by activating the STBY pin.
+
+#### Loop() function
+
+void loop() {
+
+  unsigned long currentMillis = millis();
+  
+  
+  if (currentMillis - previousMillis >= printInterval) {
+  
+    previousMillis = currentMillis;
+    
+
+In the main loop (loop()), it is checked if 5 seconds (printInterval) have passed since the last time the data was printed. If so, the timer is updated and new readings are taken.
+
+#### Get and display sensor data
+
+  int distanceFront = measureDistance(TRIG1, ECHO1);
+  
+  int distanceLeft = measureDistance(TRIG2, ECHO2);
+  
+  int distanceRight = measureDistance(TRIG3, ECHO3);
+  
+  int distanceBack = measureDistance(TRIG4, ECHO4);
+  
+  int redValue, greenValue, blueValue;
+  
+  readColor(&redValue, &greenValue, &blueValue);
+  
+
+The functions measureDistance and readColor are called to obtain the distances of the ultrasonic sensors and the color values of the TCS3200 sensor, respectively.
+
+
+  Serial.print(“Distance front: ‘); Serial.print(distanceFront); Serial.println(’ cm”);
+  
+  Serial.print(“Distance left: ‘); Serial.print(distanceLeft); Serial.println(’ cm”);
+  
+  Serial.print(“Distance right: ‘); Serial.print(distanceRight); Serial.println(’ cm”);
+  
+  Serial.print(“Distance back: ‘); Serial.print(distanceBack); Serial.println(’ cm”);
+  
+    
+  Serial.print("Color (RGB): ”);
+  
+  Serial.print("R: ”); Serial.print(redValue);
+  
+  Serial.print(” G: ”); Serial.print(greenValue);
+  
+  Serial.print(” B: ”); Serial.println(blueValue);
+  
+    
+  Serial.println(“----------------------------”);
+  
+  }
+  
+}
+
+
+The results of the distance and color measurements are printed on the serial monitor, showing the distances and the RGB values of the color sensor.
+
+#### measureDistance() function
+
+int measureDistance(int trigPin, int echoPin) {
+
+  digitalWrite(trigPin, LOW);
+  
+  delayMicroseconds(2);
+  
+  digitalWrite(trigPin, HIGH);
+  
+  delayMicroseconds(10);
+  
+  digitalWrite(trigPin, LOW);
+  
+  
+  long duration = pulseIn(echoPin, HIGH);
+  
+  int distance = duration * 0.034 / 2;
+  
+  return distance;
+  
+}
+
+
+This function measures the distance using an ultrasonic sensor. A short pulse is sent from the TRIG pin, and then the time it takes to receive the echo on the ECHO pin is measured. The distance is calculated based on that time.
+
+#### readColor() function
+
+void readColor(int* redValue, int* greenValue, int* blueValue) {
+
+
+  // Read red value
+  
+  digitalWrite(S2, LOW);
+  
+  digitalWrite(S3, LOW);
+  
+  delay(100);
+  
+  *redValue = pulseIn(OUT, LOW);
+  
+
+  // Read green value
+  
+  digitalWrite(S2, HIGH);
+  
+  digitalWrite(S3, HIGH);
+  
+  delay(100);
+  
+  *greenValue = pulseIn(OUT, LOW);
+  
+
+  // Read blue value
+  
+  digitalWrite(S2, LOW);
+  
+  digitalWrite(S3, HIGH);
+  
+  delay(100);
+  
+  *blueValue = pulseIn(OUT, LOW);
+  
+}
+
+
+This function reads the color values (red, green, blue) from the TCS3200 sensor. Depending on the configuration of pins S2 and S3, the sensor detects one of the three colors and sends a pulse whose duration is measured with pulseIn() to obtain the RGB values.
+
 
 ### Mobility
-[Mobility Code](src/parts-of-the-code/Mobility.ino)
+[Mobility code](src/parts-of-code/Mobility.ino)
+
+I explain each part of the code:
+
+#### Pin definition.
+
+#define pinPWMA 54
+
+#define pinAIN2 55
+
+#define pinAIN1 56
+
+#define pinBIN1 58
+
+#define pinBIN2 59
+
+#define pinPWMB 60
+
+#define pinSTBY 61
+
+- pinPWMA**: Speed pin for motor A. The TB6612 controller controls the speed with a PWM (pulse width modulation) signal.
+- pinAIN1, pinAIN2**: Pins that control the direction of motor A. Depending on how they are set, the motor will go forward or backward.
+- pinPWMB**: Speed pin for motor B.
+- pinBIN1, pinBIN2**: Pins that control the direction of motor B, similar to those of A.
+- pinSTBY**: Pin that activates or deactivates the motors (standby).
+
+#### Time and speed variables
+
+const int waitTime = 2000;
+
+const int speed = 0;
+
+- waitTime**: Waiting time in milliseconds between each action.
+- **speed**: Initial speed value (here it is 0, but it can be changed in the loop).
+
+#### Motor pin arrays
+
+const int pinMotorA[3] = { pinPWMA, pinAIN2, pinAIN1 };
+
+const int pinMotorB[3] = { pinPWMB, pinBIN1, pinBIN2 };
+
+- These arrays group the pins of each motor to make it easier to pass the pins as arguments to the functions that control them.
+
+#### Enumerations for movement
+
+enum moveDirection {
+
+  forward,  
+  
+  backward   
+  
+};
+
+enum turnDirection {
+
+  clockwise,     
+  
+  counterClockwise   
+  
+};
+
+
+- moveDirection**: Defines the movement directions: forward and backward.
+- turnDirection**: Defines the turns: clockwise and counterClockwise.
+
+#### Initial configuration
+
+void setup() {
+
+  pinMode(pinAIN2, OUTPUT);
+  
+  pinMode(pinAIN1, OUTPUT);
+  
+  pinMode(pinPWMA, OUTPUT);
+  
+  pinMode(pinBIN1, OUTPUT);
+  
+  pinMode(pinBIN2, OUTPUT);
+  
+  pinMode(pinPWMB, OUTPUT);
+  
+}
+
+
+- All pins associated with the motors are configured as outputs.
+
+#### Main loop
+
+void loop() {
+
+  enableMotors();  
+  
+  move(forward, 250);  
+  
+  delay(waitTime);    
+  
+
+  move(backward, 250);     
+  
+  delay(waitTime);       
+  
+
+  // Read red value
+  
+  digitalWrite(S2, LOW);
+  
+  digitalWrite(S3, LOW);
+  
+  delay(100);
+  
+  *redValue = pulseIn(OUT, LOW);
+  
+
+  // Read green value
+  
+  digitalWrite(S2, HIGH);
+  
+  digitalWrite(S3, HIGH);
+  
+  delay(100);
+  
+  *greenValue = pulseIn(OUT, LOW);
+  
+
+  // Read blue value
+  
+  digitalWrite(S2, LOW);
+  
+  digitalWrite(S3, HIGH);
+  
+  delay(100);
+  
+  *blueValue = pulseIn(OUT, LOW);
+  
+}
+
+
+This function reads the color values (red, green, blue) from the TCS3200 sensor. Depending on the configuration of pins S2 and S3, the sensor detects one of the three colors and sends a pulse whose duration is measured with pulseIn() to obtain the RGB values.
+
+
+### Mobility
+[Mobility code](src/parts-of-code/Mobility.ino)
+
+I explain each part of the code:
+
+#### Pin definition.
+
+#define pinPWMA 54
+
+#define pinAIN2 55
+
+#define pinAIN1 56
+
+#define pinBIN1 58
+
+#define pinBIN2 59
+
+#define pinPWMB 60
+
+#define pinSTBY 61
+
+- pinPWMA**: Speed pin for motor A. The TB6612 controller controls the speed with a PWM (pulse width modulation) signal.
+- pinAIN1, pinAIN2**: Pins that control the direction of motor A. Depending on how they are set, the motor will go forward or backward.
+- pinPWMB**: Speed pin for motor B.
+- pinBIN1, pinBIN2**: Pins that control the direction of motor B, similar to those of A.
+- pinSTBY**: Pin that activates or deactivates the motors (standby).
+
+#### Time and speed variables
+
+const int waitTime = 2000;
+
+const int speed = 0;
+
+- waitTime**: Waiting time in milliseconds between each action.
+- **speed**: Initial speed value (here it is 0, but it can be changed in the loop).
+
+#### Motor pin arrays
+
+const int pinMotorA[3] = { pinPWMA, pinAIN2, pinAIN1 };
+
+const int pinMotorB[3] = { pinPWMB, pinBIN1, pinBIN2 };
+
+- These arrays group the pins of each motor to make it easier to pass the pins as arguments to the functions that control them.
+
+#### Enumerations for movement
+
+enum moveDirection {
+
+  forward,  
+  
+  backward   
+  
+};
+
+enum turnDirection {
+
+  clockwise,     
+  
+  counterClockwise   
+  
+};
+
+
+- moveDirection**: Defines the movement directions: forward and backward.
+- turnDirection**: Defines the turns: clockwise and counterClockwise.
+
+#### Initial configuration
+
+void setup() {
+
+  pinMode(pinAIN2, OUTPUT);
+  
+  pinMode(pinAIN1, OUTPUT);
+  
+  pinMode(pinPWMA, OUTPUT);
+  
+  pinMode(pinBIN1, OUTPUT);
+  
+  pinMode(pinBIN2, OUTPUT);
+  
+  pinMode(pinPWMB, OUTPUT);
+  
+}
+
+
+- All pins associated with the motors are configured as outputs.
+
+#### Main loop
+
+void loop() {
+
+  enableMotors();  
+  
+  move(forward, 250);  
+  
+  delay(waitTime);    
+  
+
+  move(backward, 250);     
+  
+  delay(waitTime);       
+  
+  turn(clockwise, 250);    
+  
+  delay(waitTime); 
+  
+
+  turn(counterClockwise, 250); 
+  
+  delay(waitTime);        
+  
+
+  fullStop();            
+  
+  delay(waitTime);         
+  
+}
+
+
+- **enableMotors()**: Enables the motors.
+- **move(forward, 250)**: Moves the robot forward with a speed of 250 (on a PWM scale).
+- move(backward, 250)**: Moves the robot backward.
+- turn(clockwise, 250)**: Rotates the robot clockwise.
+- turn(counterClockwise, 250)**: Rotates counterclockwise.
+- fulllStop()**: Stops all motors.
+
+#### Function to move the vehicle forward or backward
+
+void move(int direction, int speed) {
+
+  if (direction == forward) {
+  
+    moveMotorForward(pinMotorA, speed);
+    
+    moveMotorForward(pinMotorB, speed);
+    
+  } else {
+  
+    moveMotorBackward(pinMotorA, speed);
+    
+    moveMotorBackward(pinMotorB, speed);
+    
+  }
+  
+}
+
+
+- Depending on the direction (forward or backward), the corresponding functions are called to move both motors.
+
+#### Function to turn
+
+void turn(int direction, int speed) {
+
+  if (direction == clockwise) {
+  
+    moveMotorForward(pinMotorA, speed);
+    
+    moveMotorBackward(pinMotorB, speed);
+    
+  } else {
+  
+    moveMotorBackward(pinMotorA, speed);
+    
+    moveMotorForward(pinMotorB, speed);
+    
+  }
+  
+}
+
+
+- To turn, one motor moves forward and the other moves backward, depending on the direction of the turn.
+
+#### Function to stop the vehicle
+
+void fullStop() {
+
+  disableMotors();
+  
+  stopMotor(pinMotorA);
+  
+  stopMotor(pinMotorB);
+  
+}
+
+
+- Calls **disableMotors()** to disable the motors and **stopMotor()** to stop each motor.
+
+#### Functions to move the motors
+
+void moveMotorForward(const int pinMotor[3], int speed) {
+
+  digitalWrite(pinMotor[1], HIGH);  
+  
+  digitalWrite(pinMotor[2], LOW);   
+  
+  analogWrite(pinMotor[0], speed);  
+  
+}
+
+
+void moveMotorBackward(const int pinMotor[3], int speed) {
+
+  digitalWrite(pinMotor[1], LOW);   
+  
+  digitalWrite(pinMotor[2], HIGH);  
+  
+  analogWrite(pinMotor[0], speed);  
+  
+}
+
+
+- These functions control the motor individually, setting the direction pins and speed as needed.
+
+#### Function to stop a motor
+
+void stopMotor(const int pinMotor[3]) {
+
+  digitalWrite(pinMotor[1], LOW);   
+  
+  digitalWrite(pinMotor[2], LOW);   
+  
+  analogWrite(pinMotor[0], 0);    
+  
+}
+
+
+- Completely stops a motor by setting the speed to 0 and turning off the direction pins.
+
+#### Enable and disable motors
+
+void enableMotors() {
+
+  digitalWrite(pinSTBY, HIGH);    
+  
+}
+
+void disableMotors() {
+
+  digitalWrite(pinSTBY, LOW);      
+  
+}
+
+
+- **enableMotors()**: Enables the motors when disabling standby mode.
+- **disableMotors()**: Disables the motors by activating the standby mode.
+
+This code provides complete control over the motors, with functions to move the robot forward and backward, turn and stop.
+
+#### Code Description
+
+This code controls two motors using a dual motor controller (such as the TB6612), assigning Arduino pins to manage the speed and direction of each motor. Here is how it is structured:
+
+1. Pin Definition.
+Pins are defined to control the speed (PWM) and direction (AIN1, AIN2, BIN1, BIN2) of the A and B motors. In addition, a pin is assigned to control the state of the motors (standby).
+2. Variables and Arrays
+waitTime sets the waiting time between each motion phase.
+speed defines the initial speed of the motors, which can be modified in the code.
+The pinMotorA and pinMotorB arrays group the pins of each motor, facilitating their control in the functions.
+3. Enumerations for Motion and Rotation
+Enumerations (enum) are used to define the possible directions of movement (forward, backward) and rotation (clockwise, counterclockwise), making the code more readable and easier to understand.
+4. Setup() function
+Here you configure the output pins to control the motors. The direction and speed pins are set up to send signals to the motors.
+5. Loop() function
+This function is the main loop of the program, where the following actions are executed:
+Enable the motors using the enableMotors() function.
+Move forward at speed 15.
+Move backwards at speed 15.
+Rotate clockwise at speed 15.
+Rotate counterclockwise at speed 15.
+Stop the motors using the fullStop() function.
+Each action is separated by a delay (delay(waitTime)) to observe the behavior of the motors before moving to the next action.
+6. Motion Control Functions
+move(direction, speed): Moves the motors forward or backward depending on the indicated direction.
+turn(direction, speed): Turns the vehicle in the indicated direction (clockwise or counterclockwise), moving one motor forward and the other backward.
+7. Auxiliary Functions
+moveMotorForward(pinMotor, speed): Controls a motor to turn forward, setting the direction and speed by PWM.
+moveMotorBackward(pinMotor, speed): Controls a motor to turn backward.
+stopMotor(pinMotor): Stops the motor by lowering the speed to 0 and setting both direction pins to LOW.
+enableMotors() and disableMotors(): Enable or disable the motors by controlling the standby pin (pinSTBY).
 
 #### Code Description
 
