@@ -19,7 +19,7 @@ All the materials we used for this project.
 - ... Protocables
 
 ## Building Instructions
-- 4wd Chassis: [https://iesjuanlopezmorillas.es/index.php/departamentos/area-cientifico-tecnologica/tecnologia/blog/102-montaje-chasis-coche-2wd](https://youtu.be/SMiCNY2Cu-A?si=UYj3ABeoVozylZsV)
+- 4wd Chassis: https://youtu.be/SMiCNY2Cu-A?si=UYj3ABeoVozylZsV
 - Electronics (Circuit and Battery): [Circuit diagram can be found in the schematics directory](schemes/)
 - Code (For the Arduino): [Code can be found in the src directory](src/)
 
