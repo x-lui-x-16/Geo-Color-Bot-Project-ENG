@@ -10,25 +10,20 @@ All the materials we used for this project.
 - 1 Bluetooth Module (HC-05)
 - 4 Ultrasonic Sensors (HC-SR04) (1 front, 1 back, the other two on the right and left)
 - 1 Color Sensor (TCS3200) (In the lower part of the vehicle)
-- 1 Case of 2 18650 Batteries
-- 2 18650 Batteries (about 7.4 v)
-- 1 2wd Chassis - This includes:
+- 1 Case of 3 18650 Batteries
+- 3 18650 Batteries (about 11.1v)
+- 1 4wd Chassis - This includes:
     - 1 Acrylic Base
-    - 2 Yellow Motors
-    - 2 Wheels
-    - 1 Crazy Wheel
+    - 4 Yellow Motors
+    - 4 Wheels
 - ... Protocables
-- Multiple 3D parts that can be found in the following directory.
-[3D files](3dfiles/)
 
 ## Building Instructions
-- 2wd Chassis: https://iesjuanlopezmorillas.es/index.php/departamentos/area-cientifico-tecnologica/tecnologia/blog/102-montaje-chasis-coche-2wd
+- 4wd Chassis: [https://iesjuanlopezmorillas.es/index.php/departamentos/area-cientifico-tecnologica/tecnologia/blog/102-montaje-chasis-coche-2wd](https://youtu.be/SMiCNY2Cu-A?si=UYj3ABeoVozylZsV)
 - Electronics (Circuit and Battery): [Circuit diagram can be found in the schematics directory](schemes/)
 - Code (For the Arduino): [Code can be found in the src directory](src/)
 
 ## Contents
-[3D Files](3dfiles/) This folder shows all the 3d files used.
-
 [Electromechanical Components](electromechanical-components/) In this folder are all the electromechanical components used.
 
 [Schemes](schemes/) This folder shows all the project schematics. 
