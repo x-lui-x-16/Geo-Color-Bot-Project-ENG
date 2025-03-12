@@ -143,22 +143,20 @@ The system will be designed with flexibility to allow for the integration of new
 ## Budget
 The following is the estimated budget for the development of the Geo-Color Bot project:
 
-- Arduino Mega 2560 - $57.31
-- TCS3200 Color Sensor - $9.49
-- Ultrasonic Sensor HC-SR04 (x4) - $22.00 ($5.50 ea.)
-- TB6612 H-Bridge - $3.50
-- Protoboard - $3.00
-- Arduino 2WD Kit - $10.00
-    - Includes:
+- Arduino Mega 2560 R3 - $49.65
+- TCS3200 Color Sensor - $9.99
+- Kit of 5 Ultrasonic Sensors (HC-SR04) and their Respective Bases - $9.99
+- 5 Motor Controller Kit (TB6612FNG) - $12.99
+- Bluetooth Module (HC-05) - $9.99
+- Protoboard and Dupont Cable Kit - $9.99
+- LCD Screen - $11.99
+- Arduino 4WD Kit - $21.49
+      Includes:
     - Acrylic Base
-    - Yellow Motor
-    - Wheel
-    - Crazy Wheel
-- 3D Printing Base for Ultrasonic Sensors (x2) - Donation
-- Case of 2 18650 Batteries - $3.00
-- 3.7V 18650 Batteries (x2) - $7.00 ($3.50 each)
-- Pack of 10 Dupont Male-Male Cables (x3) - $4.50 ($1.50 ea.)
-- Pack of 10 Dupont Male-Female Cables (x2) - $3.00 ($1.50 ea.)
+    - 4 Yellow Motor
+    - 4 Wheels
+- Case of 3 18650 Batteries - $3.00
+- 3.7V 18650 Batteries (x3) - $10.50 ($3.50 each)
 - Soldering Station with Soldering Iron - $25.95
 - Tin - $12.30
 - Heat Shrink Box - $6.50
@@ -171,14 +169,36 @@ The following is the estimated budget for the development of the Geo-Color Bot p
 - Super 33 Vinyl Electrical Tape - $3.00
 - Strapping Pack (x2) - $7.00 ($3.50 each)
 
-Total - $196.94
+Total - $226.12
 
 ## Conclusion
-This project has managed to develop an innovative educational tool, focused on improving learning for people with ADHD and color blindness. Thanks to the integration of the TCS3200 color sensor and the HC-SR04 ultrasonic sensors, the robot is capable of detecting colors with great precision and navigating safely, providing an interactive and accessible educational experience.
+The successful combination of technology and interactive education is represented in the development and implementation of an autonomous robot. This robot is capable of detecting colors and associating them with educational information about different countries, all thanks to its ultrasonic sensors that allow it to move on its own. In addition to exhibiting an effective integration of advanced electronic components such as the TCS3200 color sensor and HC-SR04 ultrasonic sensors with the Arduino Nano RP2040 microcontroller, this project also provides an engaging platform for learning by playing.
 
-The design ensures reliability and stability during long-term use, allowing its application in educational environments without interruption. Furthermore, its ability to adapt and continuously improve ensures that this project remains relevant and effective in the long term.
+## Bibliography
+[Arduino. (s.f.). Arduino Mega 2560 Rev3.](https://www.arduino.cc/en/Main/ArduinoBoardMega2560)
 
-In summary, the Geo-Color Bot represents a significant step forward toward inclusive education, providing more dynamic and personalized learning for users facing challenges in color perception and attention.
+[Borenstein, J. & Koren, Y. (1991). The vector field histogram—Fast obstacle avoidance for mobile robots. IEEE Transactions on Robotics and Automation, 7(3), 278-288. ](https://doi.org/10.1109/70.88137)
+
+[García, E., Jiménez, M., de Santos, P. G., & Armada, M. (2007). The evolution of robotics research. IEEE Robotics & Automation Magazine, 14(1), 90-103.](https://doi.org/10.1109/MRA.2007.339639)
+
+[Instituto Nacional de Estadística y Censo (INEC). (2023). Estadísticas sobre educación en Panamá.](https://www.inec.gob.pa/)
+
+Kernighan, B. W., & Ritchie, D. M. (1988). The C programming language (2nd ed.). Prentice Hall.
+
+Murray, R. M., Li, Z., & Sastry, S. S. (1994). A mathematical introduction to robotic manipulation. CRC Press.
+
+[NASA. (2021). The impact of AI and automation in space exploration.](https://www.nasa.gov/AI_in_Space)
+
+[OCDE. (2022). Tendencias en educación y tecnología: Integración de la robótica en el aprendizaje.](https://www.oecd.org/)
+
+[Panama Canal Authority. (2022). Engineering and sustainability in the Panama Canal expansion.](https://www.pancanal.com/)
+
+Phu, T., & Dung, L. T. (2019). Color detection and recognition using TCS3200 color sensor and Arduino. International Journal of Engineering and Technology, 8(2), 50-55.
+
+[Rouse, M. (2018). What is PWM (Pulse Width Modulation)? TechTarget.](https://www.techtarget.com)
+
+[UNESCO. (2020). Educación inclusiva y el uso de tecnologías en América Latina.](https://unesdoc.unesco.org)
+
 
 ## Code Explanation
 ### Main Code
